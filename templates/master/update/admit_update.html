@@ -1,0 +1,264 @@
+{% extends 'master/base.html' %}
+
+{% block content %}
+
+<div aria-label="breadcrumb">
+    <h6 class="font-weight-bolder mb-0 fs-2">Admit</h6>
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+            href="javascript:;"><i class="bi bi-house-fill"></i></a>
+        </li>
+        
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'dashboard' %}"  class="text-decoration-none text-dark">Dashboard</a></li>
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'admitlist' %}" class="text-decoration-none text-dark">Admit</a></li>
+  
+    </ol>
+  </div>
+  
+
+
+  <div class="container border mt-5 p-3 w-100" style="box-shadow: 1px 1px 6px;">
+
+
+<!-- <div class="float-end pt-2">
+    <a href="{% url 'admitlist' %}" class=" btn btn-primary">Go Back</a>
+</div> -->
+
+
+<div class="container pt-5">
+    <form class="row" method="post" id="feeForm"> 
+        {% csrf_token %}
+        <h3 class=" text-center">Update Course Admit</h3>
+
+        <!-- <div class=" mb-3 col-6">
+            <label for="Student" class="form-label fw-bold text-secondary">Select Student : </label>
+            <select class="form-select text-dark" aria-label="Default select example" name="name">
+                <option selected>Select Student</option>
+               
+                <option value="" name="name">{{inquiry.name}}</option>
+              
+            </select>
+        </div> -->
+
+        <div class="mb-3 col-6">
+            <label for="Name" class="form-label fw-bold text-secondary">Student Name : </label>
+            <input type="text" class="form-control" value="{{record.stu_name}}" name="stu_name" >
+        </div>
+
+        
+
+
+        <div class=" mb-3 col-6">
+            <label for="Location" class="form-label fw-bold text-secondary">Select Location : </label>
+            <select class="form-select text-dark" aria-label="Default select example" name="location">
+                <option>{{record.location}}</option>
+                {% for l in active_locations %}
+                <option value="{{l.id}}" name="location">{{l.location}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- <div class="mb-3 col-6">
+            <label for="Course" class="form-label fw-bold text-secondary">Course Inquiry : </label>
+            <input type="text" class="form-control" value="{{record.course}}" readonly>
+        </div> -->
+
+        <div class="mb-3 col-6">
+            <label for="Course" class="form-label fw-bold text-secondary">Course : </label>
+            <select class="form-select text-dark" aria-label="Default select example" name="course" id="course-dropdown">
+                <option value="">{{record.course}}</option>
+                {% for i in active_course %}
+                <option value="{{i.id}}">{{i.course}}</option>
+                {% endfor %}
+            </select>
+        </div>
+      
+        <div class="mb-3 col-6">
+            <label for="Aadhar-number" class="form-label fw-bold text-secondary">Aadhar Card Number : </label>
+            <input type="number" class="form-control" value="{{record.aadhar_no}}" name="aadhar_no" required>
+        </div>
+
+        <!-- <div class=" mb-3 col-6">
+            <label for="Sub-Category" class="form-label fw-bold text-secondary">Select Sub-Category : </label>
+            <select class="form-select text-dark" aria-label="Default select example" name="sub_category" id="id_course">
+                <option selected>Select Sub-Category</option>
+                {% for s in sub_categorise %}
+                     <option value="{{s.id}}" name="sub_category"> {{s.sub_category}} </option>
+                {% endfor %}
+            </select>
+        </div> -->
+
+        
+
+        <!-- <div class=" mb-3 col-6"> ******
+            <label for="Duration" class="form-label fw-bold text-secondary">Select Duration : </label>
+            <select class="form-select text-dark" aria-label="Default select example" name="duration">
+                <option selected>Select Duration</option>
+                {% for c in courses %}
+                <option value="{{c.id}}" name="duration">{{c.duration}}</option>
+                {% endfor %}
+            </select>
+        </div> -->
+
+        <!-- <div class="mb-3 col-6">
+            <label for="Duration" class="form-label fw-bold text-secondary">Select Duration: </label>
+            <select class="form-select text-dark" aria-label="Default select example" name="duration" id="id_sub_category">
+                <option selected>Select Duration</option>
+                {% for course in courses %}
+                    <option value="{{ course.id }}" name="duration">{{ course.duration }}</option>
+                {% endfor %}
+            </select>
+        </div> -->
+
+        <!-- <div class="mb-3 col-6">
+            <label for="SubCategory" class="form-label fw-bold text-secondary">Select Sub-Category: </label>
+            <select id="id_subcategory">
+                <option value="">Select Subcategory</option>
+            </select>
+        </div> -->
+
+        <div class="mb-3 col-6">
+            <label for="Duration" class="form-label fw-bold text-secondary">Select Duration: </label>
+            <!-- <select class="form-select text-dark" aria-label="Default select example" name="duration" id="duration-field">
+                <option selected value="" >Select Duration</option>
+                 Options will be populated dynamically 
+            </select> -->
+            <input type="text" class="form-control" value="{{record.duration}}" name="duration" id="duration-field" readonly>
+        </div>
+        
+        
+        
+
+        <div class="mb-3 col-6">
+            <label for="Date" class="form-label fw-bold text-secondary">Select Date : </label>
+            <input type="date" class="form-control" value={{record.date | date:'Y-m-d'}} name="date" required>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Total-Fee" class="form-label fw-bold text-secondary">Enter Total Fee : </label>
+            <input type="number" class="form-control" id="fees-field" value="{{record.total_fees}}" name="total_fees" oninput="calculateRemaining()" readonly required>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Paid-Now" class="form-label fw-bold text-secondary">Fee Paid Now : </label>
+            <input type="number" class="form-control" id="amountPaid" value="{{record.paid_now}}" name="paid_now"  oninput="calculateRemaining()" required>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Balane-Now" class="form-label fw-bold text-secondary">Balance Fee : </label>
+            <input type="number" class="form-control" id="remainingFees" value="{{record.balance_fees}}" name="balance_fees" readonly>
+        </div>
+
+        <div class="mb-3 mt-2 col-6">
+            <label for="Next-Date" class="form-label fw-bold text-secondary">Next Follow Date For Fee : </label>
+            <input type="date" class="form-control" value={{record.next_followup_date | date:'Y-m-d'}} name="next_followup_date" required>
+        </div>
+
+
+        <div class="col-6">
+            <label for="System" class="form-label fw-bold text-secondary">System : </label>
+            <div class="form-check ms-5">
+                <input class="form-check-input" type="radio" name="system" value="With Laptop" {% if record.system == 'With Laptop' %} checked {% endif %}>
+                <label class="form-check-label text-dark">
+                    With Laptop
+                </label>
+            </div>
+            <div class="form-check ms-5">
+                <input class="form-check-input" type="radio" name="system" value="Without Laptop" {% if record.system == 'Without Laptop' %} checked {% endif %}>
+                <label class="form-check-label text-dark">
+                    Without Laptop
+                </label>
+            </div>
+            <div class="form-check ms-5">
+                <input class="form-check-input" type="radio" name="system" value="Need PC" {% if record.system == 'Need PC' %} checked {% endif %}>
+                <label class="form-check-label text-dark">
+                    Need PC
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="col-6">
+            <label for="Fee-Close" class="form-label fw-bold text-secondary">Fee Close : </label>
+            <div class="form-check">
+                <input class="form-check-input ms-5" type="radio" id="feeCloseYes" name="fee_close" value="Yes" {% if record.fee_close == 'Yes' %} checked {% endif %} >
+                <label class="form-check-label text-dark">
+                    Yes
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input ms-5" type="radio" id="feeCloseNo" name="fee_close" value="No" {% if record.fee_close == 'No' %} checked {% endif %}  >
+                <label class="form-check-label text-dark">
+                    No
+                </label>
+            </div>
+        </div>
+
+        <div class=" gap-2 col-6 mx-auto mt-5">
+            <button class="btn btn-success text-light fw-bold" type="submit">Update</button>
+            <!-- <button class="btn btn-success text-light fw-bold" type="reset">Clear</button> -->
+        </div>
+    </form>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function(){
+        $('#course-dropdown').change(function(){
+            var course_id = $(this).val();
+            if (course_id) {
+                $.ajax({
+                    url: '/get-durations/',
+                    data: {
+                        'course_id': course_id
+                    },
+                    dataType: 'json',
+                    success: function(data){
+                        if (data && data.duration && data.fees) {
+                            $('#duration-field').val(data.duration);
+                            $('#fees-field').val(data.fees);
+                        } else {
+                            $('#duration-field').val('Details not available');
+                            $('#fees-field').val('Details not available');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        $('#duration-field').val('Error fetching details');
+                        $('#fees-field').val('Error fetching details');
+                    }
+                });
+            } else {
+                $('#duration-field').val(''); // Clear the duration field if no course is selected
+                $('#fees-field').val(''); // Clear the fees field if no course is selected
+            }
+        });
+    });
+    
+        function calculateRemaining() {
+        var totalFees = parseInt(document.getElementById('fees-field').value);
+        var amountPaid = parseInt(document.getElementById('amountPaid').value);
+        var remainingFees = totalFees - amountPaid;
+        
+        document.getElementById('remainingFees').value = remainingFees;
+
+        // Update fee close status
+    if (remainingFees === 0) {
+        document.getElementById('feeCloseYes').checked = true;
+        document.getElementById('feeCloseYes').disabled = false;
+        document.getElementById('feeCloseNo').disabled = true;
+    } else {
+        document.getElementById('feeCloseYes').checked = false;
+        document.getElementById('feeCloseYes').disabled = true;
+        document.getElementById('feeCloseNo').checked = true;
+        document.getElementById('feeCloseNo').disabled = false;
+    }
+    }
+    
+</script>
+
+{% endblock content %}

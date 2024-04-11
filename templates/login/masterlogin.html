@@ -1,0 +1,50 @@
+{% extends 'login/page.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<form method="post" id="loginForm">
+  {% csrf_token %}
+
+<h1>Master Login</h1>
+
+<div id="errorMessages"></div>
+
+
+{% if messages %}
+  <div class="messages alert alert-primary pt-2" role="alert">
+      {% for message in messages %}
+          {{ message }}
+      {% endfor %}
+  </div>
+{% endif %}
+
+    <div class="mb-3 pt-5">
+      <label for="name" class="form-label fs-5">Username</label>
+      <i class="fa-solid fa-user user"></i><input type="text" id="username" class="form-control ps-4" name="username"
+          placeholder="Enter Username">
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label fs-5">Password</label>
+      <i class="fa-solid fa-lock pass"></i><input type="password" id="password" class="form-control ps-4" name="password"
+         placeholder="Enter Password">
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label ms-1" for="exampleCheck1">Remember me</label>
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn btn-light logbtn fw-bold" type="submit">Log in</button>
+    </div>
+
+  </form>
+
+  <!-- Javascript link -->
+    
+<script src="{% static 'js/login/validation.js' %}"></script>
+
+
+
+{% endblock content %}

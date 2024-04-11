@@ -1,0 +1,208 @@
+{% extends 'master/base.html' %}
+
+{% block content %}
+
+<div aria-label="breadcrumb">
+    <h6 class="font-weight-bolder mb-0 fs-2">Fee Follow Up</h6>
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+            href="javascript:;"><i class="bi bi-house-fill"></i></a>
+        </li>
+        
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'dashboard' %}"  class="text-decoration-none text-dark">Dashboard</a></li>
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'followuplist' %}" class="text-decoration-none text-dark">Fee Follow Up</a></li>
+  
+    </ol>
+  </div>
+  
+
+
+<div class="container border mt-5 p-3 w-100" style="box-shadow: 1px 1px 6px;">
+
+
+<!-- <div class="float-end pt-3">
+    <a href="{% url 'admitlist' %}" class=" btn btn-primary">Go Back</a>
+</div> -->
+
+
+<div class="container pt-5">
+    <form class="row" method="post">
+        {% csrf_token %}
+        <h3 class=" text-center">Fee Follow Update</h3>
+
+        <div class=" mb-3 col-6">
+            <label for="Location" class="form-label fw-bold text-secondary">Select Today Date : </label>
+            <input type="date" class="form-control" name="today_date" required>
+        </div>
+
+        <div class=" mb-3 col-6">
+            <label for="Student" class="form-label fw-bold text-secondary">Select Student : </label>
+            <select class="form-select text-dark" id="student_dropdown" aria-label="Default select example" name="student_name">
+                <option selected>Select Student</option>
+                {% for a in admit %}
+                <option value="{{a.id}}" name="stu_name">{{ a.stu_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="course" class="form-label fw-bold text-secondary">Course Name : </label>
+            <input type="text" class="form-control" name="course" id="course_name" readonly>
+            <!-- <input type="text" name="" id="course"> -->
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Fee-Paid" class="form-label fw-bold text-secondary">Fee Paid : </label>
+            <input type="number" class="form-control" name="fees_paid" id="fees_paid"  readonly>
+            <!-- <input type="number" name="" id="fees_paid"> -->
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Balance" class="form-label fw-bold text-secondary">Balance Till : </label>
+            <input type="number" class="form-control" name="balance_till" id="balance_till" oninput="calculateRemaining()"  readonly>
+            <!-- <input type="number" name="" id="balance_till"> -->
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Now-Paid" class="form-label fw-bold text-secondary">Now Paid : </label>
+            <input type="number" class="form-control" name="now_paid" id="Now_Paid" oninput="calculateRemaining()"  required>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Total-Pending" class="form-label fw-bold text-secondary">Total Balance Pending : </label>
+            <input type="number" class="form-control" name="total_balance_pending" id="remainingFees"  required>
+        </div>
+
+        <div class="mb-3 col-6">
+            <label for="Next-Follow" class="form-label fw-bold text-secondary">Next Follow Update : </label>
+            <input type="date" class="form-control" name="next_follow_up_date" id="Next-Follow" required>
+        </div>
+
+        <div class=" gap-2 col-6 mx-auto mt-3">
+            <button class="btn btn-success text-light fw-bold" type="submit">Submit</button>
+            <button class="btn btn-success text-light fw-bold" type="reset">Clear</button>
+        </div>
+    </form>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#student_dropdown').change(function(){
+            var student_name_id = $(this).val();
+            if (student_name_id) {
+                $.ajax({
+                    url: '/get-student-details/',
+                    data: {
+                        'student_name_id': student_name_id
+                    },
+                    dataType: 'json',
+                    success: function(data){
+                        if (data && data.course_id && data.paid_now && data.balance_fees) {
+                            $('#course_name').val(data.course_id);
+                            $('#fees_paid').val(data.paid_now);
+                            $('#balance_till').val(data.balance_fees);
+                        } else {
+                            $('#course_name').val('Details not available');
+                            $('#fees_paid').val('Details not available');
+                            $('#balance_till').val('Details not available');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        $('#course_name').val('Error fetching details');
+                        $('#fees_paid').val('Error fetching details');
+                        $('#balance_till').val('Error fetching details');
+                    }
+                });
+            } else {
+                $('#course_name').val('');
+                $('#fees_paid').val(''); 
+                $('#balance_till').val(''); 
+            }
+        });
+    });
+
+        // fetc automatically remain fees
+        function calculateRemaining() {
+            var balance_till = parseInt(document.getElementById('balance_till').value);
+            var Now_Paid = parseInt(document.getElementById('Now_Paid').value);
+            var remainingFees = balance_till - Now_Paid;
+            
+            document.getElementById('remainingFees').value = remainingFees;
+    
+        }
+</script>
+<!-- <script>
+    $(document).ready(function() {
+        $('#student_dropdown').change(function() {
+            var studentId = $(this).val();
+            if (studentId) {
+$.ajax({
+    url: '/get-student-details/' + studentId + '/',
+    method: 'GET',
+    dataType: 'json',
+    success: function(data) {
+        if (data.error) {
+            console.error('Error:', data.error);
+            $('#course').val('Error fetching details');
+            $('#fees_paid').val('Error fetching details');
+            $('#balance_till').val('Error fetching details');
+        } else {
+            $('#course').val(data.course);
+            $('#fees_paid').val(data.fees_paid);
+            $('#balance_till').val(data.balance_fees);
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('AJAX Error:', status, error);
+        $('#course').val('AJAX Error');
+        $('#fees_paid').val('AJAX Error');
+        $('#balance_till').val('AJAX Error');
+    }
+});
+            } else {
+                $('#course').val('');
+                $('#fees_paid').val('');
+                $('#balance_till').val('');
+            }
+        });
+    });
+</script> -->
+<!-- <script>
+    $(document).ready(function() {
+        $('#student_dropdown').change(function() {
+            var student_name_id = $(this).val();
+            if (student_name_id) {
+                $.ajax({
+                    url: '/get-student-details/',
+                    type:'GET',
+                    data: {
+                        'student_name_id': student_name_id
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#course').val(data.course);
+                        $('#fees_paid').val(data.paid_now);
+                        $('#balance_till').val(data.balance_fees);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                       // $('#course').val('Error fetching details');
+                        $('#fees_paid').val('Error fetching details');
+                        $('#balance_till').val('Error fetching details');
+                    }
+                });
+            } else {
+               // $('#course').val('');
+                $('#fees_paid').val('');
+                $('#balance_till').val('');
+            }
+        });
+    });
+</script> -->
+
+
+{% endblock content %}

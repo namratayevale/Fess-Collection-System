@@ -1,0 +1,95 @@
+{% extends 'master/base.html' %}
+
+{% block content %}
+
+<div aria-label="breadcrumb">
+  <h6 class="font-weight-bolder mb-0 fs-2">Fees Follow Up</h6>
+  <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+      
+      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+          href="javascript:;"><i class="bi bi-house-fill"></i></a>
+      </li>
+      
+      <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'dashboard' %}"  class="text-decoration-none text-dark">Dashboard</a></li>
+      <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Fees Follow Up</li>
+
+  </ol>
+</div>
+<div class="container border mt-5 p-3 w-100" style="box-shadow: 1px 1px 6px;">
+
+  <div class="btn-group pt-3" role="group" aria-label="Basic outlined example">
+    <a href="{% url 'admitlist_to_csv' %}"><button type="button" class="btn btn-outline-primary">CSV</button></a>
+    <a href="{% url 'admitlist_to_pdf' %}"><button type="button" class="btn btn-outline-primary">PDF</button></a>
+    <a href=""><button type="button" onclick="printTable('printlist')" value="Print a table!"  class="btn btn-outline-primary">Print</button></a>
+  
+    <div class="container-fluid">
+      <div class="d-flex">
+        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+      </div>
+    </div>
+
+  </div>
+
+<div class="float-end pt-3">
+  <a href="{% url 'followup' %}" class=" btn btn-success">Add FollowUp </a>
+  <!-- <a href="{% url 'dashboard' %}" class=" btn btn-primary">Go Back</a> -->
+</div>
+
+<div class="container pt-5">
+  <!-- <h1 class="text-center">Student Follow Up</h1> -->
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Student Name</th>
+        <th scope="col">Course</th>
+        <th scope="col">Fee Paid</th>
+        <th scope="col">Balance Till</th>
+        <th scope="col">Now Paid</th>
+        <th scope="col">Total Pending Balance</th>
+        <th scope="col">Next Followup Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in data %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th> 
+        <td>{{d.today_date}}</td>
+        <td>{{d.student_name.stu_name}}</td>
+        <td>{{d.course}}</td>
+        <td>{{d.fees_paid}}</td>
+        <td>{{d.balance_till}}</td>
+        <td>{{d.now_paid}}</td>
+        <td>{{d.total_balance_pending}}</td>
+        <td>{{d.next_follow_up_date}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+<div class=" pt-5">
+  <ul class="pagination">
+    {% if admit.has_previous %}
+    <!-- <li class="page-item"><a class="page-link" href="/locationlist/?page=1">first</a></li> -->
+    <li class="page-item"><a class="page-link" href="/admitlist/?page={{ admit.previous_page_number }}">Previous</a></li>
+    {% endif %}
+
+    {% for n in totalpagelist %}
+    <li class="page-item"><a class="page-link" href="/admitlist/?page={{n}}">{{n}}</a></li>
+    {% endfor %}
+
+    {% if admit.has_next %}
+    <li class="page-item"><a class="page-link" href="/admitlist/?page={{ admit.next_page_number }}">Next</a></li>
+    <!-- <li class="page-item"><a class="page-link" href="/locationlist/?page={{lastpage}}">Last</a></li> -->
+    {% endif %}
+  </ul>
+</div>
+
+</div>
+
+
+
+{% endblock content %}

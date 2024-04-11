@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap links -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- css link -->
+    <link rel="stylesheet" href="{% static 'css/master/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/master/style.css' %}">
+
+    <!-- Bootsrap icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"> <img src="{% static 'image/scope_logo.png' %}" alt="" height="35px" width="160px"></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-md-auto gap-2">
+              <li class="nav-item rounded">
+                <a class="nav-link active" aria-current="page" href="#"><i class="bi bi-house-fill me-2"></i>Home</a>
+              </li>
+              <li class="nav-item rounded">
+                <a class="nav-link" href="#"><i class="bi bi-people-fill me-2"></i>About</a>
+              </li>
+              <li class="nav-item rounded">
+                <a class="nav-link" href="#"><i class="bi bi-telephone-fill me-2"></i>Contact</a>
+              </li>
+              <li class="nav-item dropdown rounded">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person-fill me-2"></i>Profile</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Account</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark sidebar">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-900px">
+                    <!-- <img src="{% static 'image/scope_logo.png' %}" alt="" height="38px" width="160px"> -->
+                    
+                    <h2 class="fs-3 d-none d-sm-inline">Hello , {{request.user|title}}</h2>
+
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-3 d-none d-sm-inline">Master</span>
+                    </a>
+                     
+                    <!-- <hr class="bg-light border-2 border-top border-danger" /> -->
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start slidebarmenu" id="menu">
+                        <!-- <li class="nav-item">
+                            <a href="#" class="nav-link align-middle px-0">
+                                <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
+                            </a>
+                        </li> -->
+                        <li>
+                            <a href="{% url 'dashboard' %}" class="nav-link px-0 align-middle">
+                                <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/FFFFFF/dashboard-layout.png" alt="dashboard-layout"/>
+                                 <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>
+                            <!-- <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                                </li>
+                            </ul> -->
+                        </li>
+                        <li>
+                            <a href="{% url 'inquiry' %}" class="nav-link px-0 align-middle">
+                                <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/why-us-male.png" alt="why-us-male"/> <span class="ms-1 d-none d-sm-inline">Student Inquiry</span></a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'admitlist' %}"  class="nav-link px-0 align-middle ">
+                                <img width="26" height="26" src="https://img.icons8.com/windows/32/FFFFFF/admission.png" alt="admission"/> 
+                                <span class="ms-1 d-none d-sm-inline">Admit Course</span></a>
+                            <!-- <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
+                                </li>
+                            </ul> -->
+                        </li>
+                        <li>
+                            <a href="{% url 'followuplist' %}" class="nav-link px-0 align-middle">
+                                <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/FFFFFF/calendar.png" alt="calendar"/> <span class="ms-1 d-none d-sm-inline">Fees Follow Up</span> </a>
+                                <!-- <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 1</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 2</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 3</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Product</span> 4</a>
+                                </li>
+                                </ul> -->
+                        </li>
+                        <li>
+                            <a href="{% url 'records' %}" class="nav-link px-0 align-middle">
+                                <img width="24" height="24" src="https://img.icons8.com/ios-filled/50/FFFFFF/opened-folder.png" alt="opened-folder"/> <span class="ms-1 d-none d-sm-inline">Records</span> </a>
+                        </li>
+                        <li>
+                            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle dropdown-toggle" >
+                                <img width="26" height="26" src="https://img.icons8.com/ios-filled/50/FFFFFF/graph-report.png" alt="graph-report"/> <span class="ms-1 d-none d-sm-inline"> Reports</span> </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="{% url 'coursewise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Course Wise</span></a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'amountwise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Amount Wise</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <img width="26" height="26" src="https://img.icons8.com/ios-filled/50/FFFFFF/alarm.png" alt="alarm"/> <span class="ms-1 d-none d-sm-inline">Notification</span> </a>
+                        </li>
+                    </ul>
+                    <hr>
+                    <div class="dropdown pb-4">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                            <span class="d-none d-sm-inline mx-1">loser</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end sidenavbar -->
+
+            
+            
+            <div class="col py-3 midwin">
+                
+                {% block content %}
+                {% endblock %} 
+                
+                <!-- Graph Section -->
+
+                <!--End graph section  -->
+                    
+
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+    <!-- Footer -->
+    <div class="container-fluid">
+        <div class="row">
+      <div class="bg-dark text-white footer_1">
+        <p class="text-center p-4 m-0">Footer Content</p>
+      </div>
+    </div>
+    </div>
+
+    <!-- End Footer -->
+
+
+
+    <!-- <div class="container">
+        <div class="bg-dark text-white">
+            <p class="text-center p-4 m-0">Footer Content</p>
+        </div>
+    </div> -->
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+{% extends 'master/base.html' %}
+
+{% block content %}
+
+<div aria-label="breadcrumb">
+    <h6 class="font-weight-bolder mb-0 fs-2">Inquiry</h6>
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+            href="javascript:;"><i class="bi bi-house-fill"></i></a>
+        </li>
+        
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'dashboard' %}"  class="text-decoration-none text-dark">Dashboard</a></li>
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'inquiry' %}" class="text-decoration-none text-dark">Inquiry</a></li>
+  
+    </ol>
+  </div>
+  
+
+<!-- <div class="float-end pt-3">
+    <a href="{% url 'inquiry' %}" class=" btn btn-primary">Go Back</a>
+  </div> -->
+
+  <div class="container border mt-5 p-3 w-100" style="box-shadow: 1px 1px 6px;">
+  
+
+    <div class="container pt-3 inquiry_form">
+        <form class="row" method="post">
+            {% csrf_token %}
+            <h3 class=" text-center">Add Student Inquiry</h3>
+            <div class="mb-3 col-6">
+                <label for="Name" class="form-label fw-bold text-secondary">Full Name : </label>
+                <input type="text" class="form-control" name="name" required>
+            </div>
+
+            <div class=" mb-3 col-6">
+                <label for="University" class="form-label fw-bold text-secondary">Select University : </label>
+                <select class="form-select text-dark" aria-label="Default select example" name="university">
+                    <option selected>Select University</option>
+                    {% for u in universities %}
+                       <option value="{{u.id}}" name="university">{{u.university}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+  
+
+            <div class=" mb-3 col-6">
+                <label for="Collage" class="form-label fw-bold text-secondary">Select Collage : </label>
+                <select class="form-select text-dark" aria-label="Default select example" name="collage">
+                    <option selected>Select Collage</option>
+                    {% for c in collages %}
+                       <option value="{{c.id}}" name="collage">{{c.collage}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class=" mb-3 col-6">
+                <label for="Course" class="form-label fw-bold text-secondary">Select Course : </label>
+                <select class="form-select text-dark" aria-label="Default select example" name="course">
+                    <option selected>Select Course</option>
+                    {% for co in course2 %}
+                       <option value="{{co.id}}" name="course">{{co.course}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="Email" class="form-label fw-bold text-secondary">Email ID : </label>
+                <input type="email" class="form-control" name="email" required>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="Mobile" class="form-label fw-bold text-secondary">Mobile No : </label>
+                <input type="tel" class="form-control" name="mobile_no" required>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label for="Home-MOB" class="form-label fw-bold text-secondary">Home Mobile No : </label>
+                <input type="tel" class="form-control" name="home_mobile_no" required>
+            </div>
+
+            <div class="col-6">
+                <label for="Status" class="form-label fw-bold text-secondary">Status : </label>
+                <div class="form-check ms-5">
+                  <label class="form-check-label text-secondary" >
+                    <input class="form-check-input" type="radio" name="status" value="Active" checked>
+                      Active
+                    </label>
+                  </div>
+                  <div class="form-check ms-5">
+                    <label class="form-check-label text-secondary" >
+                    <input class="form-check-input" type="radio" name="status"  value="Inactive" >
+                      Inactive
+                    </label>
+                  </div>
+              </div>
+            <div class=" gap-2 col-6 mx-auto mt-3">
+                <button class="btn btn-success text-light fw-bold" type="submit">Submit</button>
+                <button class="btn btn-success text-light fw-bold" type="reset">Clear</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
+
+
+
+

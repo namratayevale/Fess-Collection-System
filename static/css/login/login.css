@@ -1,0 +1,87 @@
+
+
+.user {
+    position: relative;
+    top: 38px;
+    right: 86px;
+}
+
+.pass {
+    position: relative;
+    top: 38px;
+    right: 79px;
+}
+
+.content1{
+    width: 300px;
+}
+
+.content1 a {
+    text-decoration: none;
+}
+
+.content1 h3{
+    font-weight: 700;
+}
+
+.content1 h3::first-letter{
+    color: blue;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.content1 .fa-brands{
+    margin-left: 10px;
+    padding: 6px 10px 6px 10px;
+    border-radius: 10px;
+    background-color: #263849;
+    color: #fff;
+}
+
+.container{
+    background-color: #ffffff99;
+    margin-top: 117px;
+    border: 4px solid #0c005a;
+    padding: 55px 00px;
+    max-width: 70%;
+    border-radius: 0px 100px 0px 100px;
+    min-height: 500px;
+}
+
+.main{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.logbtn{
+    background-color:#263849;
+    font-weight: 700;
+    color: #fff;
+}
+
+.bossimage{
+    animation-name: Hero;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate-reverse;
+    margin-top: 25px;
+}
+
+@keyframes Hero{
+    0%{
+       position: relative;
+       bottom: 25px;
+    }
+    100%{
+         position: relative;
+         bottom: 0px;
+    }
+}
+
+body{
+    background-image: url(../../image/login/gradient-light-color-background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}

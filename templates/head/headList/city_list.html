@@ -1,0 +1,168 @@
+{% extends 'head/headDashboard/base.html' %}
+
+
+{% block content %}
+ 
+<div aria-label="breadcrumb">
+  <h6 class="font-weight-bolder mb-0 fs-2">City</h6>
+  <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+      
+      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+          href="javascript:;"><i class="bi bi-house-fill"></i></a>
+      </li>
+      
+      <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'head_dashboard' %}"  class="text-decoration-none text-dark">Dashboard</a></li>
+      <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Masters</li>
+      <li class="breadcrumb-item text-sm text-dark active" aria-current="page">City</li>
+
+  </ol>
+</div>
+
+<div class="mt-5 p-3 col-sm-12" style="box-shadow: 1px 1px 6px;">
+
+<div class="btn-group pt-3" role="group" aria-label="Basic outlined example">
+  <a href="{% url 'export_csv' %}"><button type="button" class="btn btn-outline-primary">CSV</button></a>
+  <a href="{% url 'export_pdf' %}"><button type="button" class="btn btn-outline-primary">PDF</button></a>
+  <a href=""><button type="button" onclick="printTable('printlist')" value="Print a table!"  class="btn btn-outline-primary">Print</button></a>
+
+  <div class="container-fluid">
+    <form class="d-flex">
+      <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search">
+      <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+      <div id="results"></div>
+    </form>
+  </div>
+
+</div> 
+    
+<div class="float-end pt-3">
+  <!-- <button class="btn btn-success" onclick="toggleCities()">Active/Inactive</button> -->
+  <a href="{% url 'city' %}" class="btn btn-primary">Add City</a>
+  <!-- <a href="{% url 'head_dashboard' %}" class="btn btn-success"> Go Back</a> -->
+  </div>
+  
+  <div class="container mt-5" >
+    <!-- <h3 class="text-center ">City List</h3> -->
+    <table class="table table-striped table-hover pb-5" id="printlist"  >
+      <thead>
+        <tr>
+          <th scope="col">Sr No.</th>
+          <th scope="col">City</th>
+          <th scope="col">Status</th>
+          <th scope="col" class="hide">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for c in cities %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ c.city }}</td>
+          <td>{{ c.status }}</td>
+          <td class="hide">
+            <!-- <a href="#"><img width="27" height="27" src="https://img.icons8.com/ios-filled/50/FAB005/visible--v1.png" alt="visible--v1"/></a>  / -->
+            <a href="{% url 'update_city' c.id %}"><img width="24" height="24" src="https://img.icons8.com/android/24/038003/edit.png" alt="edit"/></a>  /
+            <a href="#" onclick="confirmDelete('{{ c.id }}')"><img width="24" height="24" src="https://img.icons8.com/material-sharp/24/eb0808/filled-trash.png" alt="filled-trash" id="cancle"/></a>
+            <!-- <button onclick="confirmDelete('{% url 'delete_city' c.id %}', '{% url 'citylist' %}')">Delete</button> -->
+
+          </td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class=" pt-5">
+    <ul class="pagination">
+      {% if cities.has_previous %}
+      <!-- <li class="page-item"><a class="page-link" href="/citylist/?page=1">first</a></li> -->
+      <li class="page-item"><a class="page-link" href="/citylist/?page={{ cities.previous_page_number }}">Previous</a></li>
+      {% endif %}
+
+      {% for n in totalpagelist %}
+      <li class="page-item"><a class="page-link" href="/citylist/?page={{n}}">{{n}}</a></li>
+      {% endfor %}
+
+      {% if cities.has_next %}
+      <li class="page-item"><a class="page-link" href="/citylist/?page={{ cities.next_page_number }}">Next</a></li>
+      <!-- <li class="page-item"><a class="page-link" href="/citylist/?page={{lastpage}}">Last</a></li> -->
+      {% endif %}
+    </ul>
+  </div>
+
+</div>
+ 
+
+  <script>
+    function confirmDelete(id) {
+        var preference;
+        if (confirm("Are you sure you want to delete?") == true) {
+            // If the user confirms, perform the deletion
+            // Here you can call your delete function or write your delete logic
+            preference = "Do You want to Continue? ";
+            window.location.href = "{% url 'delete_city' 0 %}".replace('0', id);
+        } else {
+            preference = "Cancelled";
+            // If the user cancels, do nothing
+            alert("Deletion cancelled.");
+            window.location.href = "{% url 'citylist' %}";
+        }
+    }
+
+    function printTable(tableId) {
+      var printContents = document.getElementById(tableId).outerHTML;
+      var originalContents = document.body.innerHTML;
+  
+      var popupWin = window.open('', '_blank', 'width=600,height=600');
+      popupWin.document.open();
+      popupWin.document.write('<html><head><title>Print</title><style>@media print {body {visibility: hidden;} table {visibility: visible;} .hide {visibility: hidden;}}</style></head><body onload="window.print()"><table>' + printContents + '</table></body></html>');
+      popupWin.document.close();
+  
+      // Restore the original contents
+      document.body.innerHTML = originalContents;
+  }
+
+  //function toggleCities() {
+    // Get the current URL
+    //var url = new URL(window.location.href);
+    
+    // Check if show_inactive parameter exists
+    //if (url.searchParams.has('show_inactive')) {
+        // Toggle the value of show_inactive parameter
+     //   var showInactive = url.searchParams.get('show_inactive') === 'true';
+    //    url.searchParams.set('show_inactive', !showInactive);
+  //  } else {
+        // If show_inactive parameter doesn't exist, add it with value true
+      //  url.searchParams.append('show_inactive', 'true');
+   // }
+
+    // Redirect to the modified URL
+   // window.location.href = url.toString();
+//}
+
+document.getElementById('searchInput').addEventListener('keyup', function() {
+  var letter = this.value.charAt(0);
+  if (letter.trim() === '') {
+      document.getElementById('results').innerHTML = ''; // Clear results if input is empty
+      return;
+  }
+  fetch('/search_city/?letter=' + letter)
+      .then(response => response.json())
+      .then(data => {
+          var results = document.getElementById('results');
+          results.innerHTML = ''; // Clear previous results
+          data.cities.forEach(city => {
+              var p = document.createElement('p');
+              p.textContent = city;
+              results.appendChild(p);
+          });
+      })
+      .catch(error => console.error('Error fetching cities:', error));
+});
+
+
+    </script>
+    
+{% endblock content %}
+    
