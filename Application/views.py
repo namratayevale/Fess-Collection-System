@@ -1220,7 +1220,7 @@ def admitlist_to_csv(request):
 #     doc.build([table])
 
 #     return response
-
+# Enter
 def admitlist_to_pdf(request):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="Admission.pdf"'
