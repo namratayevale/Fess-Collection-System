@@ -113,65 +113,9 @@ class Fee_followup(models.Model):
         
         # Update Stu_Admit fields based on Fee_followup data
         student = self.student_name
-        student.paid_now = self.fees_paid
+        student.paid_now = self.now_paid
         student.balance_fees = self.total_balance_pending
         student.next_followup_date = self.next_follow_up_date
         student.fee_close = "Yes" if self.total_balance_pending == 0 else "No"
         student.save()
     
-    # def save(self, *args, **kwargs):
-    #     # Update Stu_Admit instance when saving Fee_followup instance
-    #     if self.student_name:
-    #         self.student_name.paid_now += self.now_paid
-    #         self.student_name.balance_fees += self.balance_till - self.now_paid
-    #         self.student_name.next_followup_date = self.next_follow_up_date
-    #         if self.student_name.balance_fees == 0:
-    #             self.student_name.fee_close = 'Yes'
-    #         else:
-    #             self.student_name.fee_close = 'No'
-    #         self.student_name.save()
-    #     super(Fee_followup, self).save(*args, **kwargs)
-
-    # def save(self, *args, **kwargs):
-    # # Update Stu_Admit instance when saving Fee_followup instance
-    #     if self.student_name:
-    #         updated_paid_now = self.student_name.paid_now + int(self.now_paid)
-    #         updated_balance_fees = self.student_name.balance_fees + int(self.balance_till) - int(self.now_paid)
-
-    #         self.student_name.paid_now = updated_paid_now
-    #         self.student_name.balance_fees = updated_balance_fees
-    #         self.student_name.next_followup_date = self.next_follow_up_date
-
-    #         if updated_balance_fees == 0:
-    #             self.student_name.fee_close = 'Yes'
-    #         else:
-    #             self.student_name.fee_close = 'No'
-
-    #         # Save Fee_followup instance first
-    #         super(Fee_followup, self).save(*args, **kwargs)
-
-    #         # Save Stu_Admit instance after updating its fields
-    #         self.student_name.save()
-    #     else:
-    #         super(Fee_followup, self).save(*args, **kwargs)
-            
-    # def save(self, *args, **kwargs):
-    #     # Update Stu_Admit instance when saving Fee_followup instance
-    #     if self.student_name:
-    #         updated_paid_now = self.student_name.paid_now + int(self.now_paid)
-    #         updated_balance_fees = self.student_name.balance_fees + int(self.balance_till) - int(self.now_paid)
-
-    #         self.student_name.paid_now = updated_paid_now
-    #         self.student_name.balance_fees = updated_balance_fees
-    #         self.student_name.next_followup_date = self.next_follow_up_date
-
-    #         if updated_balance_fees == 0:
-    #             self.student_name.fee_close = 'Yes'
-    #         else:
-    #             self.student_name.fee_close = 'No'
-
-    #         # Save Stu_Admit instance after updating its fields
-    #         self.student_name.save()
-        
-    #     # Save Fee_followup instance after updating Stu_Admit fields
-    #     super(Fee_followup, self).save(*args, **kwargs)

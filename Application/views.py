@@ -1260,7 +1260,18 @@ def admitlist_to_pdf(request):
 
 def followup_list(request):
     data = Fee_followup.objects.all()
-    return render(request,'master/masterList/followUp_list.html',context={'data':data})
+            # pagination code
+    paginator = Paginator(data,4)  # for count data on each page
+    page_number = request.GET.get('page')
+    data1 = paginator.get_page(page_number)
+    totalpage = data1.paginator.num_pages     # for going direct last page
+    context = {
+        'data':data1,
+        # 'lastpage':totalpage,
+        'totalpagelist':[n+1 for n in range(totalpage)]
+    }
+
+    return render(request,'master/masterList/followUp_list.html',context=context)
 
 def followupdate(request):
     admit_record = Stu_Admit.objects.filter(fee_close = 'No')
