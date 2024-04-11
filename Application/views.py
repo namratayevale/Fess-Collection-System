@@ -1351,7 +1351,6 @@ def amountwise(request):
     return render(request,'master/masterList/amountwise_report.html')
 
 
-# def sample(reuest)
 
 
 
