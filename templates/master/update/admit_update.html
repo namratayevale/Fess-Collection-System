@@ -43,7 +43,7 @@
 
         <div class="mb-3 col-6">
             <label for="Name" class="form-label fw-bold text-secondary">Student Name : </label>
-            <input type="text" class="form-control" value="{{record.stu_name}}" name="stu_name" >
+            <input type="text" class="form-control" value="{{record.stu_name}}" name="stu_name" readonly>
         </div>
 
         
@@ -52,7 +52,7 @@
         <div class=" mb-3 col-6">
             <label for="Location" class="form-label fw-bold text-secondary">Select Location : </label>
             <select class="form-select text-dark" aria-label="Default select example" name="location">
-                <option>{{record.location}}</option>
+                <option value="{{record.loaction_id}}">{{record.location}}</option> -->
                 {% for l in active_locations %}
                 <option value="{{l.id}}" name="location">{{l.location}}</option>
                 {% endfor %}

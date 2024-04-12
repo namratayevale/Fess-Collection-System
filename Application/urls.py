@@ -41,6 +41,8 @@ urlpatterns = [
     path('followup/',views.followupdate,name='followup'),
     path('follouplist/',views.followup_list,name='followuplist'),
     path('get-student-details/',views.get_student_details,name='get-student-details'),
+    path('Fee_FollowupList_to_csv/',views.followup_list,name='feeFollowupCSV'),
+    path('Fee_followupList_to_pdf/',views.followuplist_to_pdf,name='Fee_followupList_to_pdf'),
 
 
 

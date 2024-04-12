@@ -1076,11 +1076,12 @@ def get_duration(request):
 def admit_update(request,id):
     active_course = Course_Master.objects.filter(status='Active')
     active_locations = Location_Master.objects.filter(status='Active')
+    # record=Stu_Admit.objects.filter(stu_name_id=id)
     record = Stu_Admit.objects.get(id=id)
     inquiry_record = Stu_Inquiry.objects.get(id=id)
-
+    # inquiry_record=record.stu_name
     if request.method == 'POST':
-        stu_name_id = request.POST.get('stu_name')
+        # stu_name = request.POST.get('stu_name_id')
         aadhar_no = request.POST.get('aadhar_no')       
         location_id = request.POST.get('location')
         course_id = request.POST.get('course')
@@ -1100,7 +1101,7 @@ def admit_update(request,id):
         #     instance = None
 
         # instance = Stu_Inquiry.objects.get(name=stu_name)       
-        record.stu_name_id = stu_name_id
+        # record.stu_name_id= stu_name_id
         record.aadhar_no = aadhar_no
         record.location_id = location_id
         record.course_id = course_id
@@ -1355,6 +1356,71 @@ def get_student_details(request):
             return JsonResponse({'error': 'Student not found'}, status=404)
     else:
         return JsonResponse({'error': 'Student ID not provided'}, status=400)
+    
+
+
+def followuplist_to_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['content-Disposition'] = 'attachment; filename="Fee_Followup_data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Date', 'Student Name', 'Course', 'Fee Paid', 'Balance Till', 'Now Paid', 'Total Pending Balance', 'Next Followup Date'])
+
+    followup = Fee_followup.objects.all()
+    for f in followup:
+        # Accessing related fields' attributes if necessary
+        student_name = f.student_name.stu_name  # Assuming 'name' is the attribute you want to access
+        course = f.course  # Assuming 'name' is the attribute you want to access
+        
+        # Convert date field to string if necessary
+        today_date = str(f.today_date)  # Assuming 'today_date' is a DateField
+
+        writer.writerow([today_date, student_name, course, f.fees_paid, f.balance_till, f.now_paid, f.total_balance_pending, f.next_follow_up_date])
+    return response
+
+def followuplist_to_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Fee_Followup_data.pdf"'
+
+    # Retrieve data from the database
+    followup = Fee_followup.objects.all()
+
+    # Define the table data
+    data = [['Date','Student Name','Course','Fee Paid','Balance Till','Now Paid','Total Pending Balance','Next Followup Date']]
+
+    # Populate the data list with database records
+    for f in followup:
+# Accessing related fields' attributes if necessary
+        student_name = f.student_name.stu_name  # Assuming 'name' is the attribute you want to access
+        course = f.course  # Assuming 'name' is the attribute you want to access
+
+        # Convert date field to string if necessary
+        today_date = str(f.today_date)  # Assuming 'today_date' is a DateField
+
+        # Append data to the list
+        data.append([today_date, student_name, course, f.fees_paid, f.balance_till, f.now_paid, f.total_balance_pending, f.next_follow_up_date])
+    # Create a PDF document
+    doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+    table = Table(data)
+
+    # Style the table
+    style = TableStyle([('GRID', (0, 0), (-1, -1), 1, (0, 0, 0))])  # Add borders
+    table.setStyle(style) 
+
+    # Adjust column widths
+    col_widths = [doc.width / len(data[0])] * len(data[0])
+    table._argW = col_widths
+
+    # Allow table to split across pages
+    table.splitByRow = 1
+    table.repeatRows = 1
+
+    # Add the table to the PDF document
+    doc.build([table])
+
+    return response
+
+
 
 def records(request):
     return render(request,'master/masterList/records.html')
