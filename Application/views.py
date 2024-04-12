@@ -1005,6 +1005,13 @@ def admitstu(request, id):  # main Function
         #record.course_id = course_id  # Assuming course_id is the correct field to assign the course ID
         # record.save()
 
+        # Debugging statements
+        print("Balance fees:", balance_fees)
+
+        
+        # Debugging statement   
+        print("Fee close:", fee_close)
+
         # Creating Stu_Admit object
         admit = Stu_Admit.objects.create(
             stu_name=record,  # Assuming 'name' is a ForeignKey in Stu_Admit pointing to Stu_Inquiry
@@ -1020,6 +1027,13 @@ def admitstu(request, id):  # main Function
             system=system,
             fee_close=fee_close
         )
+
+        # Update fee_close based on remaining fees
+        if admit.total_fees == admit.paid_now:
+            fee_close = 'Yes'
+        else:
+            fee_close = 'No'
+
 
         admit.save()
 
@@ -1098,6 +1112,7 @@ def admit_update(request,id):
         record.next_followup_date =next_followup_date
         record.system = system
         record.fee_close = fee_close
+        
 
         record.save()
         return redirect(reverse('admitlist'))

@@ -94,12 +94,12 @@ class Stu_Admit(models.Model):
     def __str__(self):
         return self.stu_name
     
-    def save(self, *args, **kwargs):
-        if self.balance_fees == 0:
-            self.fee_close = 'Yes'
-        else:
-            self.fee_close = 'No'
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.balance_fees == 0:
+    #         self.fee_close = 'Yes'
+    #     else:
+    #         self.fee_close = 'No'
+    #     super().save(*args, **kwargs)
     
 class Fee_followup(models.Model):
     today_date = models.DateField(null=True)
@@ -125,9 +125,9 @@ class Fee_followup(models.Model):
         student.next_followup_date = self.next_follow_up_date
         # student.fee_close = "Yes" if self.total_balance_pending or self.balance_fees == 0 else "No"
         # Check if all fees are paid
-        # if student.balance_fees == 0:
-        #     student.fee_close = "Yes"
-        # else:
-        #     student.fee_close = "No"
+        if student.total_fees == student.paid_now:
+            student.fee_close = "Yes"
+        else:
+            student.fee_close = "No"
         student.save()
     
