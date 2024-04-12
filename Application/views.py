@@ -1066,7 +1066,7 @@ def admit_update(request,id):
     inquiry_record = Stu_Inquiry.objects.get(id=id)
 
     if request.method == 'POST':
-        stu_name = request.POST.get('stu_name')
+        stu_name_id = request.POST.get('stu_name')
         aadhar_no = request.POST.get('aadhar_no')       
         location_id = request.POST.get('location')
         course_id = request.POST.get('course')
@@ -1079,14 +1079,14 @@ def admit_update(request,id):
         system = request.POST.get('system')
         fee_close = request.POST.get('fee_close')
 
-        try:
-            instance = Stu_Inquiry.objects.get(name=stu_name)
-        except:
-            # Handle the case where the Stu_Inquiry record doesn't exist
-            instance = None
+        # try:
+        #     instance = Stu_Inquiry.objects.get(name=stu_name)
+        # except:
+        #     # Handle the case where the Stu_Inquiry record doesn't exist
+        #     instance = None
 
         # instance = Stu_Inquiry.objects.get(name=stu_name)       
-        record.stu_name = instance
+        record.stu_name_id = stu_name_id
         record.aadhar_no = aadhar_no
         record.location_id = location_id
         record.course_id = course_id
