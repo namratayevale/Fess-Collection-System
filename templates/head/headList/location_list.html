@@ -28,11 +28,9 @@
   
     <div class="container-fluid">
       <div class="d-flex">
-        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
-        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+        <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterCities()">
       </div>
     </div>
-
   </div> 
 
     
@@ -44,7 +42,7 @@
     <div class="container pt-5">
   
     <!-- <h3 class="text-center ">Location List</h3> -->
-    <table class="table table-striped table-hover" id="printlist">
+    <table class="table table-striped table-hover" id="cityTable">
       <thead>
         <tr>
           <th scope="col">Sr No.</th>
@@ -128,5 +126,31 @@ function printTable(tableId) {
   
 
 </script>
+
+
+<script>
+  function filterCities() {
+    var input, filter, table, tr, tdCity, tdStatus, i, txtValueCity, txtValueStatus;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("cityTable");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      tdCity = tr[i].getElementsByTagName("td")[0]; // Index 1 corresponds to the City column
+      tdStatus = tr[i].getElementsByTagName("td")[1]; // Index 2 corresponds to the Status column
+      if (tdCity && tdStatus) {
+        txtValueCity = tdCity.textContent || tdCity.innerText;
+        txtValueStatus = tdStatus.textContent || tdStatus.innerText;
+        if (txtValueCity.toUpperCase().indexOf(filter) > -1 || txtValueStatus.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
+
+
 {% endblock content %}
     
