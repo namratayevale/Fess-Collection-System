@@ -961,6 +961,13 @@ def inquirylist_to_pdf(request):
 
     return response
 
+def search_inquiry(request):
+    letter = request.GET.get('letter')
+    cities = City_master.objects.filter(name__istartswith=letter)
+    city_names = [city.city for city in cities]
+    return JsonResponse({'cities': city_names})
+
+
 # ************** Student Admit ****************
 
 def admit_list(request):
@@ -1420,17 +1427,112 @@ def followuplist_to_pdf(request):
 
     return response
 
+# ************* CourseWise Report **************
+
+def coursewise(request):
+    admit = Stu_Admit.objects.all().order_by('course__course')
+    return render(request,'master/masterList/coursewise_report.html',context={'admit':admit})
+
+def balance_status(request):
+    balance_status = request.GET.get('balance_status','all')  #'complete', or 'pending'
+    
+    if balance_status == 'complete':
+        admits = Stu_Admit.objects.filter(balance_fees=0).order_by('course__course')
+    elif balance_status == 'pending':
+        admits = Stu_Admit.objects.exclude(balance_fees=0).order_by('course__course')
+    else:
+        admits = Stu_Admit.objects.all().order_by('course__course')
+    
+    data = {
+        'admits': admits,  # Corrected variable name
+        'balance_status': balance_status,
+    }
+    return render(request, 'master/masterList/coursewise_report.html', data)
+
+def course_wise_to_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['content-Disposition'] = 'attachment; filename="Course Wise Data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Name', 'Course', 'Balance Fees'])
+
+    report = Stu_Admit.objects.all().order_by('course__course')
+    for a in report:
+        writer.writerow([a.stu_name,a.course,a.balance_fees])
+    return response
+
+def course_wise_to_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Course Wise Data.pdf"'
+
+    # Define the table data
+    data = Stu_Inquiry.objects.all().order_by('course__course')
+
+    data = [['Name', 'Course', 'Balance Fees']]
+    report = Stu_Admit.objects.all()
+    for r in report:
+        data.append([r.stu_name,r.course,r.balance_fees])
+
+    # Create a PDF document
+    doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+    table = Table(data)
+
+    # Style the table
+    style = TableStyle([('GRID', (0, 0), (-1, -1), 1, (0, 0, 0))])  # Add borders
+    table.setStyle(style)
+
+    # Add the table to the PDF document
+    doc.build([table])
+
+    return response
+
+
+# *************** Amount-Wise Report ***************
+
+def amountwise(request):
+    admit = Stu_Admit.objects.all().order_by('-balance_fees')
+    return render(request,'master/masterList/amountwise_report.html',context={'admit':admit})
+
+def amount_wise_to_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['content-Disposition'] = 'attachment; filename="Amount Wise Data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Name', 'Course', 'Balance Fees'])
+
+    report = Stu_Admit.objects.all().order_by('-balance_fees')
+    for a in report:
+        writer.writerow([a.stu_name,a.course,a.balance_fees])
+    return response
+
+def amount_wise_to_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="Amount Wise Data.pdf"'
+
+    # Define the table data
+    # data = Stu_Admit.objects.all()
+
+    data = [['Name', 'Course', 'Balance Fees']]
+    report = Stu_Admit.objects.all().order_by('-balance_fees')
+    for r in report:
+        data.append([r.stu_name,r.course,r.balance_fees])
+
+    # Create a PDF document
+    doc = SimpleDocTemplate(response, pagesize=landscape(letter))
+    table = Table(data)
+
+    # Style the table
+    style = TableStyle([('GRID', (0, 0), (-1, -1), 1, (0, 0, 0))])  # Add borders
+    table.setStyle(style)
+
+    # Add the table to the PDF document
+    doc.build([table])
+
+    return response
 
 
 def records(request):
     return render(request,'master/masterList/records.html')
-
-def coursewise(request):
-    return render(request,'master/masterList/coursewise_report.html')
-
-def amountwise(request):
-    return render(request,'master/masterList/amountwise_report.html')
-
 
 
 

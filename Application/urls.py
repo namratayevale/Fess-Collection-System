@@ -16,8 +16,6 @@ urlpatterns = [
 
     # list and form urls
     path('records/',views.records,name='records'),
-    path('coursewise/',views.coursewise,name='coursewise'),
-    path('amountwise/',views.amountwise,name='amountwise'),
 
     # ************** Student Inquiry ****************
     path('inquiry/',views.inquiry,name='inquiry'),
@@ -44,7 +42,18 @@ urlpatterns = [
     path('Fee_FollowupList_to_csv/',views.followup_list,name='feeFollowupCSV'),
     path('Fee_followupList_to_pdf/',views.followuplist_to_pdf,name='Fee_followupList_to_pdf'),
 
+    # *************** CourseWise Report ******************
+    path('coursewise/',views.coursewise,name='coursewise'),
+    path('balance_status/',views.balance_status,name='Status'),
+    path('course_report_to_csv/',views.course_wise_to_csv,name='course_report_to_csv'),
+    path('course_report_to_pdf/',views.course_wise_to_pdf,name='course_report_to_pdf'),
 
+    # *************** AmountWise Report **************
+    path('amountwise/',views.amountwise,name='amountwise'),
+    path('amount_report_to_csv/',views.amount_wise_to_csv,name='amount_report_to_csv'),
+    path('amount_report_to_pdf/',views.amount_wise_to_pdf,name='amount_report_to_pdf'),
+
+    
 
     # <<<<<<<<<<<< head urls >>>>>>>>>>>
     path('head/',views.head_dashboard,name='head_dashboard'),

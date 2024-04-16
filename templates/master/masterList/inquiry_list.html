@@ -22,11 +22,11 @@
   <div class="btn-group pt-3" role="group" aria-label="Basic outlined example">
     <a href="{% url 'inquiryList_csv' %}"><button type="button" class="btn btn-outline-primary">CSV</button></a>
     <a href="{% url 'inquiryList_pdf' %}"><button type="button" class="btn btn-outline-primary">PDF</button></a>
-    <a href=""><button type="button" onclick="printTable('printlist')" value="Print a table!"  class="btn btn-outline-primary">Print</button></a>
+    <a href=""><button type="button" onclick="printTable('inqiryTable')" value="Print a table!"  class="btn btn-outline-primary">Print</button></a>
   
     <div class="container-fluid">
       <div class="d-flex">
-        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2 " type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterCities()">
         <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
       </div>
     </div>
@@ -40,7 +40,7 @@
 </div>
 
 <div class="container pt-5">
-  <table class="table table-striped" id="printlist">
+  <table class="table table-striped" id="inqiryTable">
     <thead>
       <tr>
         <th></th>
@@ -118,7 +118,7 @@
 
 </div>
 <script>
-
+// script for table 
   document.querySelectorAll('.toggle-btn').forEach(button => {
     button.addEventListener('click', function() {
       const icon = this.innerHTML.trim();
@@ -130,6 +130,7 @@
     });
   });
 
+  // script for delete popup
   function confirmDelete(id) {
     var preference;
     if (confirm("Are you sure you want to delete?") == true) {
@@ -145,6 +146,7 @@
     }
 }
 
+// script for print table
 function printTable(tableId) {
   var printContents = document.getElementById(tableId).outerHTML;
   var originalContents = document.body.innerHTML;
@@ -156,6 +158,28 @@ function printTable(tableId) {
 
   // Restore the original contents
   document.body.innerHTML = originalContents;
+}
+
+// script for search 
+function filterCities() {
+  var input, filter, table, tr, tdCity, tdStatus, i, txtValueCity, txtValueStatus;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("inqiryTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    tdCity = tr[i].getElementsByTagName("td")[0]; // Index 1 corresponds to the City column
+    tdStatus = tr[i].getElementsByTagName("td")[1]; // Index 2 corresponds to the Status column
+    if (tdCity && tdStatus) {
+      txtValueCity = tdCity.textContent || tdCity.innerText;
+      txtValueStatus = tdStatus.textContent || tdStatus.innerText;
+      if (txtValueCity.toUpperCase().indexOf(filter) > -1 || txtValueStatus.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
 }
 
    
