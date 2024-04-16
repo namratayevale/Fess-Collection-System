@@ -60,7 +60,8 @@ urlpatterns = [
     path('update_city/<int:id>/', views.update_city, name='update_city'),
     path('export_csv/',views.citylist_to_csv,name='export_csv'),
     path('export_pdf/',views.citylist_to_pdf,name='export_pdf'),
-    path('search_city/',views.search_city,name='search_city'),
+    # path('search/',views.search,name='search'),
+    path('search/', views.search, name='search'),
 
     # ******** Location *********
     path('location/', views.location, name='location'),

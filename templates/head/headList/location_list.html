@@ -28,7 +28,7 @@
   
     <div class="container-fluid">
       <div class="d-flex">
-        <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterCities()">
+        <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterlist()">
       </div>
     </div>
   </div> 
@@ -129,7 +129,7 @@ function printTable(tableId) {
 
 
 <script>
-  function filterCities() {
+  function filterlist() {
     var input, filter, table, tr, tdCity, tdStatus, i, txtValueCity, txtValueStatus;
     input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();

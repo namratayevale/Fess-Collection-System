@@ -110,11 +110,14 @@ def citylist(request):
     # code for paginatin
     paginator = Paginator(cities,5)  # for count data on each page
     page_number = request.GET.get('page')
-    cities1 = paginator.get_page(page_number)
-    totalpage = cities1.paginator.num_pages     # for going direct last page
+    page_obj = paginator.get_page(page_number)
+    totalpage = page_obj.paginator.num_pages     # for going direct last page
+    # page_obj = paginator.get_page(page_number)
+    # return render(request, 'head/headList/city_list.html', {'page_obj': page_obj})
     data = {
-        'cities':cities1,
+        'cities':page_obj,
         # 'lastpage':totalpage,
+        "page_obj": page_obj,
         'totalpagelist':[n+1 for n in range(totalpage)]
     }
     return render(request, 'head/headList/city_list.html',data)
@@ -129,10 +132,10 @@ def citylist(request):
 
 #     paginator = Paginator(cities, 5)        # for count data on each page
 #     page_number = request.GET.get('page')
-#     cities1 = paginator.get_page(page_number)
-#     totalpage = cities1.paginator.num_pages
+#     page_obj = paginator.get_page(page_number)
+#     totalpage = page_obj.paginator.num_pages
 #     data = {
-#         'cities': cities1,
+#         'cities': page_obj,
 #         'show_inactive': show_inactive,
 #         'totalpagelist': [n+1 for n in range(totalpage)]
 #     }
@@ -202,11 +205,12 @@ def delete_city(request,id):
     dcity.delete()
     return redirect(reverse('citylist'))
 
-def search_city(request):
-    letter = request.GET.get('letter')
-    cities = City_master.objects.filter(name__istartswith=letter)
-    city_names = [city.city for city in cities]
-    return JsonResponse({'cities': city_names})
+def search(request):
+    pass
+#     letter = request.GET.get('letter')
+#     cities = City_master.objects.filter(name__istartswith=letter)
+#     city_names = [city.city for city in cities]
+    # return JsonResponse({'cities': city_names})
 
 #  *********** Location View ************  
 
