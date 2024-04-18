@@ -30,7 +30,7 @@
   
     <div class="container-fluid">
       <div class="d-flex">
-        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2 " type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterCities()">
         <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
       </div>
     </div>
@@ -154,6 +154,35 @@ function printTable(tableId) {
 
   // Restore the original contents
   document.body.innerHTML = originalContents;
+}
+
+// script for search
+
+function filterCities() {
+  var input, filter, table, tr, tdName, tdCourse, tdUniversity, tdCollege, tdStatus, i, txtValueName, txtValueCourse, txtValueUniversity, txtValueCollege, txtValueStatus;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("printlist");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    tdName = tr[i].getElementsByTagName("td")[2]; // Index 2 corresponds to the Name column
+    tdCourse = tr[i].getElementsByTagName("td")[3]; // Index 3 corresponds to the Course column
+    tdUniversity = tr[i].getElementsByTagName("td")[4]; // Index 4 corresponds to the University column
+    tdCollege = tr[i].getElementsByTagName("td")[5]; // Index 5 corresponds to the College column
+    tdStatus = tr[i].getElementsByTagName("td")[6]; // Index 6 corresponds to the Status column
+    if (tdName && tdCourse && tdUniversity && tdCollege && tdStatus) {
+      txtValueName = tdName.textContent || tdName.innerText;
+      txtValueCourse = tdCourse.textContent || tdCourse.innerText;
+      txtValueUniversity = tdUniversity.textContent || tdUniversity.innerText;
+      txtValueCollege = tdCollege.textContent || tdCollege.innerText;
+      txtValueStatus = tdStatus.textContent || tdStatus.innerText;
+      if (txtValueName.toUpperCase().indexOf(filter) > -1 || txtValueCourse.toUpperCase().indexOf(filter) > -1 || txtValueUniversity.toUpperCase().indexOf(filter) > -1 || txtValueCollege.toUpperCase().indexOf(filter) > -1 || txtValueStatus.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
 }
 
 

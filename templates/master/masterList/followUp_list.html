@@ -24,7 +24,7 @@
   
     <div class="container-fluid">
       <div class="d-flex">
-        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control me-2 " type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterData()">
         <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
       </div>
     </div>
@@ -104,6 +104,33 @@ function printTable(tableId) {
   // Restore the original contents
   document.body.innerHTML = originalContents;
 }
+
+// script for search
+  function filterData() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("printlist");
+      tr = table.getElementsByTagName("tr");
+  
+      for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td");
+          for (var j = 0; j < td.length; j++) {
+              var cell = td[j];
+              if (cell) {
+                  txtValue = cell.textContent || cell.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                      tr[i].style.display = "";
+                      break;
+                  } else {
+                      tr[i].style.display = "none";
+                  }
+              }
+          }
+      }
+  }
+  
+  
 </script>
 
 

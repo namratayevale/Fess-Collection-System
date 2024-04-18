@@ -27,8 +27,7 @@
   
     <div class="container-fluid">
       <div class="d-flex">
-        <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
-        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+        <input class="form-control me-2" type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterlist()">
       </div>
     </div>
 
@@ -132,6 +131,28 @@ function printTable(tableId) {
 
 </script>
 
+<script>
+  function filterlist() {
+    var input, filter, table, tr, tdsearch, tdStatus, i, txtsearch, txtValueStatus;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("printlist");
+    tr = table.getElementsByTagName("tr");
+    for (i = 0; i < tr.length; i++) {
+      tdsearch = tr[i].getElementsByTagName("td")[0]; // Index 1 corresponds to the City column
+      tdStatus = tr[i].getElementsByTagName("td")[1]; // Index 2 corresponds to the Status column
+      if (tdsearch && tdStatus) {
+        txtsearch = tdsearch.textContent || tdsearch.innerText;
+        txtValueStatus = tdStatus.textContent || tdStatus.innerText;
+        if (txtsearch.toUpperCase().indexOf(filter) > -1 || txtValueStatus.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>
 
 {% endblock content %}
     

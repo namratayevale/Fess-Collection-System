@@ -31,7 +31,7 @@
 
   <div class="container-fluid">
     <div class="d-flex">
-      <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+      <input class="form-control me-2 " type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterData()">
       <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
     </div>
   </div>
@@ -77,9 +77,25 @@
       {% endfor %}
     </tbody>
   </table>
-
-
 </div>
+<div class=" pt-5">
+  <ul class="pagination">
+    {% if admit.has_previous %}
+    <!-- <li class="page-item"><a class="page-link" href="/locationlist/?page=1">first</a></li> -->
+    <li class="page-item"><a class="page-link" href="/coursewise/?page={{ admit.previous_page_number }}">Previous</a></li>
+    {% endif %}
+
+    {% for n in totalpagelist %}
+    <li class="page-item"><a class="page-link" href="/coursewise/?page={{n}}">{{n}}</a></li>
+    {% endfor %}
+
+    {% if admit.has_next %}
+    <li class="page-item"><a class="page-link" href="/coursewise/?page={{ admit.next_page_number }}">Next</a></li>
+    <!-- <li class="page-item"><a class="page-link" href="/locationlist/?page={{lastpage}}">Last</a></li> -->
+    {% endif %}
+  </ul>
+</div>
+
 </div>
 <script>
   function filterAdmits(balanceStatus) {
@@ -107,6 +123,33 @@ function printTable(tableId) {
   // Restore the original contents
   document.body.innerHTML = originalContents;
 }
+
+// script for search
+
+  function filterData() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("admits_table");
+      tr = table.getElementsByTagName("tr");
+  
+      for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td");
+          for (var j = 0; j < td.length; j++) {
+              var cell = td[j];
+              if (cell) {
+                  txtValue = cell.textContent || cell.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                      tr[i].style.display = "";
+                      break;
+                  } else {
+                      tr[i].style.display = "none";
+                  }
+              }
+          }
+      }
+  }
+  
 
 </script>
 {% endblock content %}

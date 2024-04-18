@@ -110,11 +110,14 @@ def citylist(request):
     # code for paginatin
     paginator = Paginator(cities,5)  # for count data on each page
     page_number = request.GET.get('page')
-    cities1 = paginator.get_page(page_number)
-    totalpage = cities1.paginator.num_pages     # for going direct last page
+    page_obj = paginator.get_page(page_number)
+    totalpage = page_obj.paginator.num_pages     # for going direct last page
+    # page_obj = paginator.get_page(page_number)
+    # return render(request, 'head/headList/city_list.html', {'page_obj': page_obj})
     data = {
-        'cities':cities1,
+        'cities':page_obj,
         # 'lastpage':totalpage,
+        "page_obj": page_obj,
         'totalpagelist':[n+1 for n in range(totalpage)]
     }
     return render(request, 'head/headList/city_list.html',data)
@@ -129,10 +132,10 @@ def citylist(request):
 
 #     paginator = Paginator(cities, 5)        # for count data on each page
 #     page_number = request.GET.get('page')
-#     cities1 = paginator.get_page(page_number)
-#     totalpage = cities1.paginator.num_pages
+#     page_obj = paginator.get_page(page_number)
+#     totalpage = page_obj.paginator.num_pages
 #     data = {
-#         'cities': cities1,
+#         'cities': page_obj,
 #         'show_inactive': show_inactive,
 #         'totalpagelist': [n+1 for n in range(totalpage)]
 #     }
@@ -202,11 +205,12 @@ def delete_city(request,id):
     dcity.delete()
     return redirect(reverse('citylist'))
 
-def search_city(request):
-    letter = request.GET.get('letter')
-    cities = City_master.objects.filter(name__istartswith=letter)
-    city_names = [city.city for city in cities]
-    return JsonResponse({'cities': city_names})
+def search(request):
+    pass
+#     letter = request.GET.get('letter')
+#     cities = City_master.objects.filter(name__istartswith=letter)
+#     city_names = [city.city for city in cities]
+    # return JsonResponse({'cities': city_names})
 
 #  *********** Location View ************  
 
@@ -802,9 +806,20 @@ def head(request):
 
 # <<<<<<<<<<<<<<< Master View >>>>>>>>>>>>>>>
 
-
+# *********** Show count number in cards Dashboard ************
 def dashboard(request):
-    return render(request,'master/dashboard.html')
+    count = Stu_Admit.objects.count()
+    paid_students_count = Stu_Admit.objects.filter(balance_fees=0).count()  
+    pending_students_count = Stu_Admit.objects.filter(balance_fees__gt=0).count() 
+    followup_count = Fee_followup.objects.count()       
+
+    data = {
+        'count':count,
+        'paid_students_count':paid_students_count,
+        'pending_students_count':pending_students_count,
+        'followup_count':followup_count
+    }
+    return render(request,'master/dashboard.html',context=data)
 
 # ************* Student Inquiry ***************
 
@@ -961,11 +976,6 @@ def inquirylist_to_pdf(request):
 
     return response
 
-def search_inquiry(request):
-    letter = request.GET.get('letter')
-    cities = City_master.objects.filter(name__istartswith=letter)
-    city_names = [city.city for city in cities]
-    return JsonResponse({'cities': city_names})
 
 
 # ************** Student Admit ****************
@@ -1431,7 +1441,18 @@ def followuplist_to_pdf(request):
 
 def coursewise(request):
     admit = Stu_Admit.objects.all().order_by('course__course')
-    return render(request,'master/masterList/coursewise_report.html',context={'admit':admit})
+                # pagination code
+    paginator = Paginator(admit,7)  # for count data on each page
+    page_number = request.GET.get('page')
+    data = paginator.get_page(page_number)
+    totalpage = data.paginator.num_pages     # for going direct last page
+    context = {
+        'admit':data,
+        # 'lastpage':totalpage,
+        'totalpagelist':[n+1 for n in range(totalpage)]
+    }   
+
+    return render(request,'master/masterList/coursewise_report.html',context=context)
 
 def balance_status(request):
     balance_status = request.GET.get('balance_status','all')  #'complete', or 'pending'
@@ -1490,8 +1511,19 @@ def course_wise_to_pdf(request):
 # *************** Amount-Wise Report ***************
 
 def amountwise(request):
-    admit = Stu_Admit.objects.all().order_by('-balance_fees')
-    return render(request,'master/masterList/amountwise_report.html',context={'admit':admit})
+    admit = Stu_Admit.objects.filter(balance_fees__gt=0).order_by('-balance_fees')
+                    # pagination code
+    paginator = Paginator(admit,5)  # for count data on each page
+    page_number = request.GET.get('page')
+    data = paginator.get_page(page_number)
+    totalpage = data.paginator.num_pages     # for going direct last page
+    context = {
+        'admit':data,
+        # 'lastpage':totalpage,
+        'totalpagelist':[n+1 for n in range(totalpage)]
+    }   
+
+    return render(request,'master/masterList/amountwise_report.html',context=context)
 
 def amount_wise_to_csv(request):
     response = HttpResponse(content_type='text/csv')
@@ -1532,7 +1564,7 @@ def amount_wise_to_pdf(request):
 
 
 def records(request):
-    return render(request,'master/masterList/records.html')
+    return render(request,'templates/master/masterList/records.html')
 
 
 
