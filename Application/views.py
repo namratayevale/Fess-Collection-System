@@ -905,7 +905,7 @@ def inquiry_update(request,id):
 def inquiry_delete(request,id):
     i = Stu_Inquiry.objects.get(id=id)
     i.delete()
-    return redirect(reverse('inquiry'))
+    return redirect(reverse('inquiry')) 
 
 def inquirylist_to_csv(request):
     response = HttpResponse(content_type='text/csv')

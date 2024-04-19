@@ -18,7 +18,7 @@
         right: 0;
         bottom: 0;
         width: 100%;
-        background-color: red;
+        background-color: white;
         color: white;
         text-align: center;
     }
@@ -28,8 +28,13 @@
         height: 100vh;
         position: fixed;
         left: 0;
-        
-    
+    }
+    .metismenu{
+        text-decoration: none;
+        list-style: none;
+    }
+    .metismenu li span{
+        color: black;
     }
 </style>
 
@@ -42,94 +47,58 @@
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
-                    <img src="{% static 'image/scope_logo.png' %}" alt="">
+                    <img src="static/image/scope_logo.png" alt="">
+
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                        <span class="fs-3 d-none d-sm-inline">Master</span>
+                    </a>
 
                     <ul class="metismenu" id="menu1">
 
                         <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">Organizations</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Organizations</span></a></li>
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Employees</span></a>
+                            <a href="{% url 'dashboard' %}" class="nav-link px-0 align-middle">
+                                <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/FFFFFF/dashboard-layout.png" alt="dashboard-layout"/>
+                                <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>                            
+                        </li>
+                        <li> 
+                            <a href="{% url 'inquiry' %}" class="nav-link px-0 align-middle">
+                            <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/why-us-male.png" alt="why-us-male"/> <span class="ms-1 d-none d-sm-inline">Student Inquiry</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'admitlist' %}"  class="nav-link px-0 align-middle ">
+                                <img width="26" height="26" src="https://img.icons8.com/windows/32/FFFFFF/admission.png" alt="admission"/> 
+                                <span class="ms-1 d-none d-sm-inline">Admit Course</span></a>
+                        </li>
+                        <li>
+                            <a href="{% url 'followuplist' %}" class="nav-link px-0 align-middle">
+                                <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/FFFFFF/calendar.png" alt="calendar"/> <span class="ms-1 d-none d-sm-inline">Fees Follow Up</span> </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'records' %}" class="nav-link px-0 align-middle">
+                                <img width="24" height="24" src="https://img.icons8.com/ios-filled/50/FFFFFF/opened-folder.png" alt="opened-folder"/> <span class="ms-1 d-none d-sm-inline">Records</span> </a>
+                        </li>
+                        <li>
+                            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle dropdown-toggle" >
+                                <img width="26" height="26" src="https://img.icons8.com/ios-filled/50/FFFFFF/graph-report.png" alt="graph-report"/> <span class="ms-1 d-none d-sm-inline"> Reports</span> </a>
+                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a href="{% url 'coursewise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Course Wise</span></a>
                                 </li>
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Departments</span></a>
+                                <li>
+                                    <a href="{% url 'amountwise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Amount Wise</span></a>
                                 </li>
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Roles</span></a></li>
-                            </ul>
-                        </li>
-
-
-
-
-                        <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">Employees</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">Add Employees</span></a></li>
-                            </ul>
-                        </li>
-
-                        <!-- <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">Business</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">Business List</span></a></li>
                             </ul>
                         </li>
                         <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">List Design Received <br> For Production</span></a>
-                        </li> -->
-
-
-                        <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">Purchase</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Purchase</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">Purchase
-                                    Orders</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Purchase Orders</span></a></li>
-                            </ul>
+                            <a href="#" class="nav-link px-0 align-middle">
+                                <img width="26" height="26" src="https://img.icons8.com/ios-filled/50/FFFFFF/alarm.png" alt="alarm"/> <span class="ms-1 d-none d-sm-inline">Notification</span> </a>
                         </li>
 
-                        <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">Designs</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Designs</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">Designs</span></a>
-                            <ul class="submenu-angle" aria-expanded="false">
-                                <li><a title="Inbox"><i class="fa fa-inbox sub-icon-mg" aria-hidden="true"></i> <span
-                                            class="mini-sub-pro">List Designs</span></a></li>
-                            </ul>
-                        </li>
 
-                        <!-- @endif
-                        @if (session()->get('role_id') == config('constants.ROLE_ID.PRODUCTION')) -->
-                        <li>
-                            <a class="has-arrow" aria-expanded="false"><i class="fa big-icon fa-envelope icon-wrap"></i>
-                                <span class="mini-click-non">List Design Received <br> For Production</span></a>
-                        </li>
+
+
+
+
 
 
                     </ul>
@@ -141,11 +110,31 @@
             <div class="all-content-wrapper">
                 <div class="container-fluid position-fixed top-0">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-danger">
-                            <div class="logo-pro p-3">
-                                <a href="#">Home</a>
-                                <a href="#">Notification</a>
-                                <a href="#">Logout</a>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-light">
+                            <div class="logo-pro">
+                                <nav class="navbar navbar-expand-lg navbar-light bg-danger">
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                      <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                  
+                                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                      <ul class="navbar-nav mr-auto" style="
+                                      position: relative;
+                                      left: 56%;
+                                  ">
+                                        <li class="nav-item active">
+                                          <a class="nav-link text-light" href="#">Notification</a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link text-light" href="#">Profile</a>
+                                        </li>
+                                        <li class="nav-item">
+                                          <a class="nav-link text-light" href="#">LogOut</a>
+                                        </li>
+                                      </ul>
+                                      
+                                    </div>
+                                  </nav>
                             </div>
                             
                         </div>
@@ -221,8 +210,8 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="footer-copy-right">
-                                    <p>Copyright @ 2024 | <a href="#">Shreerag </a>Designd by ❤ From Nashik</p>
+                                <div class="footer-copy-right p-2 bg-danger">
+                                    <p>Copyright @ 2024 | Designd by 💛 From Nashik</p>
                                 </div>
                             </div>
                         </div>
