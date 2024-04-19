@@ -1,21 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap links -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        <!-- Bootstrap links -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!-- css link -->
+        <link rel="stylesheet" href="{% static 'css/master/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/master/style.css' %}">
+    
+        <!-- Bootsrap icon -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    
+    
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+    
     <title>Document</title>
 </head>
 <style>
     .footer {
-        position: relative;
-        right: 0;
+        position: fixed;
         bottom: 0;
         width: 100%;
         background-color: white;
@@ -28,86 +35,111 @@
         height: 100vh;
         position: fixed;
         left: 0;
+        box-shadow: 1px 1px 9px;
     }
     .metismenu{
         text-decoration: none;
         list-style: none;
     }
+    .sidebar1{
+        padding-top: 5%;
+    }
     .metismenu li span{
         color: black;
+    }
+    .navitem{
+        position: relative;
+        left: 65%;
+    }
+    .navitem li a{
+        font-weight: 500;
+        font-size: 17px;
+    }
+    
+    .main_content{
+        position: relative;
+        top: 14%;
     }
 </style>
 
 <body>
-    <div class="left-sidebar-pro d-flex">
-        <nav id="sidebar" class="col-2 shadow  ">
-            <div class="sidebar-header">
+    <div class="left-sidebar-pro d-flex" >
+        <nav id="sidebar" class="col-2">
+            <!-- <div class="sidebar-header">
                 <a href="index.html"><img class="main-logo" alt=""></a>
                 <strong><img alt=""></strong>
-            </div>
-            <div class="left-custom-menu-adp-wrap comment-scrollbar">
-                <nav class="sidebar-nav left-sidebar-menu-pro">
-                    <img src="static/image/scope_logo.png" alt="">
-
-                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-                        <span class="fs-3 d-none d-sm-inline">Master</span>
-                    </a>
-
-                    <ul class="metismenu" id="menu1">
-
-                        <li>
-                            <a href="{% url 'dashboard' %}" class="nav-link px-0 align-middle">
-                                <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/FFFFFF/dashboard-layout.png" alt="dashboard-layout"/>
-                                <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>                            
-                        </li>
-                        <li> 
-                            <a href="{% url 'inquiry' %}" class="nav-link px-0 align-middle">
-                            <img width="25" height="25" src="https://img.icons8.com/ios-filled/50/FFFFFF/why-us-male.png" alt="why-us-male"/> <span class="ms-1 d-none d-sm-inline">Student Inquiry</span></a>
-                        </li>
-                        <li>
-                            <a href="{% url 'admitlist' %}"  class="nav-link px-0 align-middle ">
-                                <img width="26" height="26" src="https://img.icons8.com/windows/32/FFFFFF/admission.png" alt="admission"/> 
-                                <span class="ms-1 d-none d-sm-inline">Admit Course</span></a>
-                        </li>
-                        <li>
-                            <a href="{% url 'followuplist' %}" class="nav-link px-0 align-middle">
-                                <img width="30" height="30" src="https://img.icons8.com/sf-regular/48/FFFFFF/calendar.png" alt="calendar"/> <span class="ms-1 d-none d-sm-inline">Fees Follow Up</span> </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'records' %}" class="nav-link px-0 align-middle">
-                                <img width="24" height="24" src="https://img.icons8.com/ios-filled/50/FFFFFF/opened-folder.png" alt="opened-folder"/> <span class="ms-1 d-none d-sm-inline">Records</span> </a>
-                        </li>
-                        <li>
-                            <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle dropdown-toggle" >
-                                <img width="26" height="26" src="https://img.icons8.com/ios-filled/50/FFFFFF/graph-report.png" alt="graph-report"/> <span class="ms-1 d-none d-sm-inline"> Reports</span> </a>
-                                <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
-                                <li class="w-100">
-                                    <a href="{% url 'coursewise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Course Wise</span></a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'amountwise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Amount Wise</span></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link px-0 align-middle">
-                                <img width="26" height="26" src="https://img.icons8.com/ios-filled/50/FFFFFF/alarm.png" alt="alarm"/> <span class="ms-1 d-none d-sm-inline">Notification</span> </a>
-                        </li>
-
-
-
-
-
-
-
-
-                    </ul>
-                </nav>
+            </div> -->
+                <div class="left-custom-menu-adp-wrap comment-scrollbar" >
+                    <nav class="sidebar-nav left-sidebar-menu-pro sidebar1">
+                        <a class="navbar-brand" href="#"> <img src="{% static 'image/scope_logo.png' %}" class="position-relative" style="left:18%;" alt="" height="40px" width="170px"></a>
+    
+                        <!-- <h4 class="fs-3 d-none d-sm-inline">Hello , {{request.user|title}}</h4> -->
+    
+                        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                            <h1 class="fs-3 d-none d-sm-inline position-relative pt-5" style="right: -23%">Master</h1>
+                        </a>
+    
+                        <ul class="metismenu" id="menu1">
+    
+                            <!-- <li>
+                                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                                    <span class="fs-3 d-none d-sm-inline">Master</span>
+                                </a>
+                            </li> -->
+    
+                            <li>
+                                <a href="{% url 'dashboard' %}" class="nav-link px-0 align-middle">
+                                <img width="24" height="24" src="https://img.icons8.com/material-sharp/24/1A1A1A/dashboard-layout.png" alt="dashboard-layout"/>                                    <span class="ms-1 d-none d-sm-inline">Dashboard</span> </a>                            
+                            </li>
+                            <li> 
+                                <a href="{% url 'inquiry' %}" class="nav-link px-0 align-middle">
+                                    <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/1A1A1A/why-us-male.png" alt="why-us-male"/> <span class="ms-1 d-none d-sm-inline">Student Inquiry</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'admitlist' %}"  class="nav-link px-0 align-middle ">
+                                    <img width="32" height="32" src="https://img.icons8.com/windows/32/1A1A1A/admission.png" alt="admission"/>
+                                    <span class="ms-1 d-none d-sm-inline">Admit Course</span></a>
+                            </li>
+                            <li>
+                                <a href="{% url 'followuplist' %}" class="nav-link px-0 align-middle">
+                                    <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/1A1A1A/calendar.png" alt="calendar"/> <span class="ms-1 d-none d-sm-inline">Fees Follow Up</span> </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'records' %}" class="nav-link px-0 align-middle">
+                                    <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/1A1A1A/opened-folder.png" alt="opened-folder"/> <span class="ms-1 d-none d-sm-inline">Records</span> </a>
+                            </li>
+                            <li>
+                                <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle dropdown-toggle" >
+                                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/50/1A1A1A/graph-report.png" alt="graph-report"/> <span class="ms-1 d-none d-sm-inline"> Reports</span> </a>
+                                    <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
+                                    <li class="w-100">
+                                        <a href="{% url 'coursewise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Course Wise</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'amountwise' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">Amount Wise</span></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0 align-middle">
+                                    <img width="30" height="30" src="https://img.icons8.com/ios-filled/50/1A1A1A/alarm.png" alt="alarm"/> <span class="ms-1 d-none d-sm-inline">Notification</span> </a>
+                            </li>
+    
+    
+    
+    
+    
+    
+    
+    
+                        </ul>
+                    </nav>
+    
             </div>
         </nav>
         <!-- <div class="col-9 bg-danger ">jhjdjkbjk</div> -->
-        <div class="col-9" style="right: 0; position:absolute;">
-            <div class="all-content-wrapper">
+        <div class="col-10 " style="right: 0; position:absolute;">
+            <div class="ms-1 all-content-wrapper">
                 <div class="container-fluid position-fixed top-0">
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-light">
@@ -118,18 +150,15 @@
                                     </button>
                                   
                                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                      <ul class="navbar-nav mr-auto" style="
-                                      position: relative;
-                                      left: 56%;
-                                  ">
-                                        <li class="nav-item active">
+                                      <ul class="navbar-nav mr-auto navitem">
+                                        <!-- <li class="nav-item active">
                                           <a class="nav-link text-light" href="#">Notification</a>
+                                        </li> -->
+                                        <li class="nav-item">
+                                          <a class="nav-link text-light" href="#"><img width="32" height="32" src="https://img.icons8.com/external-inkubators-basic-outline-inkubators/32/EBEBEB/external-user-profile-user-interface-inkubators-basic-outline-inkubators.png" alt="external-user-profile-user-interface-inkubators-basic-outline-inkubators"/> Profile </a>
                                         </li>
                                         <li class="nav-item">
-                                          <a class="nav-link text-light" href="#">Profile</a>
-                                        </li>
-                                        <li class="nav-item">
-                                          <a class="nav-link text-light" href="#">LogOut</a>
+                                          <a class="nav-link text-light" href="{% url 'logout' %}"><img width="30" height="30" src="https://img.icons8.com/windows/32/EBEBEB/exit.png" alt="exit"/>LogOut</a>
                                         </li>
                                       </ul>
                                       
@@ -144,62 +173,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="main contnt">
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                <p>main content Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias
-                                    autem hic sunt dolore maiores! Alias ex fugit velit a voluptates asperiores ea eius
-                                    ipsa optio repellat expedita, illo tenetur temporibus.
-                                </p>
+                            <div class="main_content">
+                                {% block content %}
+                                {% endblock %}
                             </div>
                         </div>
                     </div>
