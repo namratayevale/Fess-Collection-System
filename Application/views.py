@@ -792,7 +792,19 @@ def head_dashboard(request):
     return render(request,'head/headDashboard/dashboard.html')
 
 def create_master(request):
-    return render(request,'head/headForm/head.html')
+    createLocation = Location_Master.objects.filter(status='active')
+    if request.method == 'POST':
+        location_id = request.POST.get('location')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        status = request.POST.get('status')
+        location = Location_Master.objects.get(id=location_id)
+        profile = UserProfile.objects.create(username=username,password=password,location_id=location,status=status)
+        profile.save()
+        return redirect('locationlist')
+    else:
+        location = Location_Master.objects.all()
+        return render(request,'head/headForm/head.html', {'location':createLocation})
 
 def head(request):
     return render(request, 'head/headForm/head.html')

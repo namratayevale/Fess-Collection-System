@@ -1,7 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 
 # Create your models here.
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    location = models.ForeignKey('Location_Master', on_delete = models.CASCADE, blank=True, null=True)  # or any other field type for location information
+
+    def __str__(self):
+        return f'{self.user.username} - {self.location}'
+
 
 # ************ head models ***************
 
@@ -19,6 +28,9 @@ class Location_Master(models.Model):
 
     def __str__(self):
         return self.location
+    
+
+
 
 class Category_Master(models.Model):
     category = models.CharField(max_length=50,blank=True,null=True)
