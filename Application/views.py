@@ -789,19 +789,34 @@ def head(request):
     return render(request,'head/headDashboard/base.html')
 
 def head_dashboard(request):
-    return render(request,'head/headDashboard/dashboard.html')
+    count = Stu_Admit.objects.count()
+    paid_students_count = Stu_Admit.objects.filter(balance_fees=0).count()  
+    pending_students_count = Stu_Admit.objects.filter(balance_fees__gt=0).count() 
+    # followup_count = Fee_followup.objects.count()       
+    followup_count = Stu_Admit.objects.filter(balance_fees__gt=0).count() 
+    data = {
+        'count':count,
+        'paid_students_count':paid_students_count,
+        'pending_students_count':pending_students_count,
+        'followup_count':followup_count
+    }
+    return render(request,'head/headDashboard/dashboard.html',context=data)
+    # return render(request,'head/headDashboard/dashboard.html')
 
 def create_master(request):
-    createLocation = Location_Master.objects.filter(status='active')
+    createLocation = Location_Master.objects.filter(status='Active')
     if request.method == 'POST':
-        location_id = request.POST.get('location')
+        location = request.POST.get('location')
         username = request.POST.get('username')
         password = request.POST.get('password')
         status = request.POST.get('status')
-        location = Location_Master.objects.get(id=location_id)
-        profile = UserProfile.objects.create(username=username,password=password,location_id=location,status=status)
-        profile.save()
-        return redirect('locationlist')
+        user = User.objects.create_user(username=username, password=password)
+        # Get the location object
+        location = Location_Master.objects.get(id=location)
+        
+        # Create a new UserProfile instance and associate it with the user and location
+        profile = UserProfile.objects.create(user=user, location=location)
+        return redirect('dashboard')
     else:
         location = Location_Master.objects.all()
         return render(request,'head/headForm/head.html', {'location':createLocation})
@@ -823,8 +838,8 @@ def dashboard(request):
     count = Stu_Admit.objects.count()
     paid_students_count = Stu_Admit.objects.filter(balance_fees=0).count()  
     pending_students_count = Stu_Admit.objects.filter(balance_fees__gt=0).count() 
-    followup_count = Fee_followup.objects.count()       
-
+    # followup_count = Fee_followup.objects.count()       
+    followup_count = Stu_Admit.objects.filter(balance_fees__gt=0).count() 
     data = {
         'count':count,
         'paid_students_count':paid_students_count,
@@ -1107,7 +1122,7 @@ def admit_update(request,id):
     active_locations = Location_Master.objects.filter(status='Active')
     # record=Stu_Admit.objects.filter(stu_name_id=id)
     record = Stu_Admit.objects.get(id=id)
-    inquiry_record = Stu_Inquiry.objects.get(id=id)
+    # inquiry_record = Stu_Inquiry.objects.get(id=id)
     # inquiry_record=record.stu_name
     if request.method == 'POST':
         # stu_name = request.POST.get('stu_name_id')
@@ -1148,7 +1163,7 @@ def admit_update(request,id):
         return redirect(reverse('admitlist'))
     
     else:
-        return render(request,'master/update/admit_update.html',context={'record':record,'inquiry_record':inquiry_record,'active_course':active_course,'active_locations':active_locations})
+        return render(request,'master/update/admit_update.html',context={'record':record,'active_course':active_course,'active_locations':active_locations})
 
 
 # def admitstu(request, id):  # main Function
@@ -1579,5 +1594,39 @@ def records(request):
     return render(request,'templates/master/masterList/records.html')
 
 
+def total_student(request):
+    admit = Stu_Admit.objects.all()
+                # pagination code
+    # paginator = Paginator(admit,7)  # for count data on each page
+    # page_number = request.GET.get('page')
+    # data = paginator.get_page(page_number)
+    # totalpage = data.paginator.num_pages     # for going direct last page
+    context = {
+        'admit':admit,
+        # 'lastpage':totalpage,
+        # 'totalpagelist':[n+1 for n in range(totalpage)]
+    }  
 
+    # return render(request,'master/masterList/coursewise_report.html',context=context)
+    return render(request, 'master/masterList/student.html',context=context)
 
+def paid_stu(request):
+    admit = Stu_Admit.objects.filter(balance_fees=0)
+    context = {
+        'admit':admit,
+    }
+    return render(request, 'master/masterList/paid-fees.html', context=context)
+
+def pending_stu(request):
+    admit = Stu_Admit.objects.filter(balance_fees__gt=0)
+    context = {
+        'admit':admit,
+     }
+    return render(request, 'master/masterList/pending.html', context=context)
+
+def followup_stu_list(request):
+    data = Fee_followup.objects.filter(total_balance_pending__gt=0)
+    context = {
+        'data':data,
+     }
+    return render(request, 'master/masterList/followup_stu.html', context=context)

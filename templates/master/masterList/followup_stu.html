@@ -1,0 +1,144 @@
+{% extends 'master/navbar.html' %}
+
+{% block content%}
+
+<div aria-label="breadcrumb " class="position-fixed bg-light w-100" style="z-index: 1000;">
+    <h6 class="font-weight-bolder mb-0 mt-1 py-1 fs-2"> Student Fees Followup {{count}}</h6>
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+        
+        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
+            href="javascript:;"><i class="bi bi-house-fill"></i></a>
+        </li>
+        
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href="{% url 'dashboard' %}"  class="text-decoration-none text-dark">Dashboard</a></li>
+        <li class="breadcrumb-item text-sm text-dark active" aria-current="page"><a href=""></a>Fee Followup</li>
+  
+    </ol>
+  </div>
+  <div class="container border w-100" style="box-shadow: 1px 1px 6px; margin-top:100px;">
+  
+  
+  <!-- <div class="float-end pt-3">
+    <a href="" class=" btn btn-success">Complete </a>
+    <a href="" class=" btn btn-danger">Pending</a>
+  </div> -->
+  <div class="btn-group pt-3" role="group" aria-label="Basic outlined example">
+    <a href="{% url 'course_report_to_csv' %}"><button type="button" class="btn btn-outline-primary">CSV</button></a>
+    <a href="{% url 'course_report_to_pdf' %}"><button type="button" class="btn btn-outline-primary">PDF</button></a>
+    <a href=""><button type="button" onclick="printTable('admits_table')" value="Print a table!"  class="btn btn-outline-primary">Print</button></a>
+  
+    <div class="container-fluid">
+      <div class="d-flex">
+        <input class="form-control me-2 " type="text" id="searchInput" placeholder="Search" aria-label="Search" onkeyup="filterData()">
+        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+      </div>
+    </div>
+  
+  </div>
+  
+  
+  {% comment %} <div class="float-end pt-3"> {% endcomment %}
+    {% comment %} <button onclick="filterAdmits('all')" class="btn btn-info text-light">All</button> {% endcomment %}
+        {% comment %} <button onclick="filterAdmits('complete')" class="btn btn-success">Complete</button>
+        <button onclick="filterAdmits('pending')" class="btn btn-danger">Pending</button> {% endcomment %}
+    
+  {% comment %} </div> {% endcomment %}
+  
+  <div class="container pt-5">
+    <!-- <h1 class="text-center">Course-Wise Report</h1> -->
+    
+    <table class="table table-striped" id="printlist">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Student Name</th>
+            <th scope="col">Course</th>
+            {% comment %} <th scope="col">Fee Paid</th>
+            <th scope="col">Balance Till</th>
+            <th scope="col">Now Paid</th> {% endcomment %}
+            <th scope="col">Total Pending Balance</th>
+            <th scope="col">Next Followup Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in data %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th> 
+            <td>{{d.today_date}}</td>
+            <td>{{d.student_name.stu_name}}</td>
+            <td>{{d.course}}</td>
+            {% comment %} <td>{{d.fees_paid}}</td>
+            <td>{{d.balance_till}}</td>
+            <td>{{d.now_paid}}</td> {% endcomment %}
+            <td>{{d.total_balance_pending}}</td>
+            <td>{{d.next_follow_up_date}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>
+  <div class=" pt-5">
+    <ul class="pagination">
+      {% if admit.has_previous %}
+      <!-- <li class="page-item"><a class="page-link" href="/locationlist/?page=1">first</a></li> -->
+      <li class="page-item"><a class="page-link" href="/coursewise/?page={{ admit.previous_page_number }}">Previous</a></li>
+      {% endif %}
+  
+      {% for n in totalpagelist %}
+      <li class="page-item"><a class="page-link" href="/coursewise/?page={{n}}">{{n}}</a></li>
+      {% endfor %}
+  
+      {% if admit.has_next %}
+      <li class="page-item"><a class="page-link" href="/coursewise/?page={{ admit.next_page_number }}">Next</a></li>
+      <!-- <li class="page-item"><a class="page-link" href="/locationlist/?page={{lastpage}}">Last</a></li> -->
+      {% endif %}
+    </ul>
+  </div>
+  
+  </div>
+  <script>
+    
+  //script for print table function
+  function printTable(tableId) {
+    var printContents = document.getElementById(tableId).outerHTML;
+    var originalContents = document.body.innerHTML;
+  
+    var popupWin = window.open('', '_blank', 'width=600,height=600');
+    popupWin.document.open();
+    popupWin.document.write('<html><head><title>Print</title><style>@media print {body {visibility: hidden;} table {visibility: visible;} .hide {visibility: hidden;}}</style></head><body onload="window.print()"><table>' + printContents + '</table></body></html>');
+    popupWin.document.close();
+  
+    // Restore the original contents
+    document.body.innerHTML = originalContents;
+  }
+  
+  // script for search
+  
+    function filterData() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("admits_table");
+        tr = table.getElementsByTagName("tr");
+    
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            for (var j = 0; j < td.length; j++) {
+                var cell = td[j];
+                if (cell) {
+                    txtValue = cell.textContent || cell.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        break;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+    
+  
+  </script>
+{% endblock%}

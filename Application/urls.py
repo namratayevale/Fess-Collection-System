@@ -15,6 +15,12 @@ urlpatterns = [
     # ********* dashboard urls ***********
     path('Master_dash/',views.dashboard,name='dashboard'),
 
+    path('student/', views.total_student, name = 'student'),
+    path('paid_student/', views.paid_stu, name = 'paid_student'),
+    path('pending_student/', views.pending_stu, name = 'pending_student'),
+    path('followup_student/', views.followup_stu_list, name = 'follwup_student'),
+    
+
     # list and form urls
     path('records/',views.records,name='records'),
 

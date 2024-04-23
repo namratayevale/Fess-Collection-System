@@ -66,7 +66,7 @@
 
         <div class="mb-3 col-6">
             <label for="Course" class="form-label fw-bold text-secondary">Course : </label>
-            <select class="form-select text-dark" aria-label="Default select example" name="course" id="course-dropdown">
+            <select class="form-select text-dark" aria-label="Default select example" name="course" id="course-dropdown" disabled>
                 <option value="">{{record.course}}</option>
                 {% for i in active_course %}
                 <option value="{{i.id}}">{{i.course}}</option>
@@ -152,7 +152,7 @@
 
         <div class="mb-3 mt-2 col-6">
             <label for="Next-Date" class="form-label fw-bold text-secondary">Next Follow Date For Fee : </label>
-            <input type="date" class="form-control" value={{record.next_followup_date | date:'Y-m-d'}} name="next_followup_date" required>
+            <input type="date" class="form-control" id="followupdate" value={{record.next_followup_date | date:'Y-m-d'}} name="next_followup_date" required>
         </div>
 
 
@@ -251,11 +251,14 @@
         document.getElementById('feeCloseYes').checked = true;
         document.getElementById('feeCloseYes').disabled = false;
         document.getElementById('feeCloseNo').disabled = true;
+        
+
     } else {
         document.getElementById('feeCloseYes').checked = false;
         document.getElementById('feeCloseYes').disabled = true;
         document.getElementById('feeCloseNo').checked = true;
         document.getElementById('feeCloseNo').disabled = false;
+        
     }
     }
     
